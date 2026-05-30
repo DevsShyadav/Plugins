@@ -1,0 +1,13 @@
+coupon_id,code,description,discount_type,amount,date_created,date_expires,usage_count,usage_limit,usage_limit_per_user,limit_usage_to_x_items,free_shipping,product_ids,exclude_product_ids,product_categories,exclude_product_categories,minimum_amount,maximum_amount,individual_use,exclude_sale_items,allowed_emails
+1,WELCOME10,10% off your first order - new customer welcome discount,percent,10,2024-07-01 00:00:00,2025-12-31 23:59:59,8,500,1,,,,,,,50.00,,yes,no,
+2,SUMMER20,Summer sale - 20% off electronics,percent,20,2024-06-01 00:00:00,2024-09-30 23:59:59,15,100,2,,"Electronics > Laptops|Electronics > Smartphones|Electronics > Audio > Headphones|Electronics > Audio > Speakers",,,,100.00,,yes,yes,
+3,FALL15,Fall season - 15% off clothing and apparel,percent,15,2024-09-01 00:00:00,2024-11-30 23:59:59,12,200,2,,"Clothing & Apparel > Women > Activewear|Clothing & Apparel > Men > Outerwear|Clothing & Apparel > Shoes > Sneakers|Clothing & Apparel > Bags > Backpacks",,,,75.00,,no,no,
+4,HOLIDAY10,Holiday special - $10 off orders over $80,fixed_cart,10,2024-11-15 00:00:00,2025-01-05 23:59:59,5,1000,3,,,,,,,,80.00,,no,no,
+5,FREESHIP,Free shipping on any order over $50,fixed_cart,0,2024-01-01 00:00:00,2025-12-31 23:59:59,22,0,0,,yes,,,,,50.00,,no,no,
+6,TECHSAVE50,Save $50 on electronics over $500,fixed_cart,50,2024-08-01 00:00:00,2025-03-31 23:59:59,6,50,1,,"Electronics > Laptops|Electronics > Smartphones|Electronics > TVs|Electronics > Gaming > VR",,,,500.00,,yes,yes,
+7,VIP25,VIP customers - 25% off entire order,percent,25,2024-01-01 00:00:00,2025-12-31 23:59:59,3,20,1,,,,,,,,200.00,,yes,no,"michael.t@gmail.com,emily.w88@gmail.com,danielkim.dev@gmail.com,rwilliams.home@gmail.com,mbrown.audio@gmail.com"
+8,BUNDLE15,15% off when you buy 3 or more items,percent,15,2024-10-01 00:00:00,2025-06-30 23:59:59,4,300,2,,,,,,,,150.00,,no,no,
+9,FLASHSALE,Flash sale - $25 off (limited time),fixed_cart,25,2024-12-10 00:00:00,2024-12-15 23:59:59,0,50,1,,,,,,,,100.00,,yes,yes,
+10,LOYALTY20,Loyalty reward - 20% off for repeat customers,percent,20,2024-06-01 00:00:00,2025-12-31 23:59:59,7,0,2,,,,,,,,0.00,,no,no,"michael.t@gmail.com,emily.w88@gmail.com,ryan.obrien@gmail.com,mharper.clean@gmail.com,danielkim.dev@gmail.com,pdavis.bakes@gmail.com,jmorrison.fit@gmail.com,samlee.yoga@gmail.com,tbrooks.travel@gmail.com,blewis.crossfit@gmail.com,dnguyen.gamer@gmail.com,dfoster.eco@gmail.com,tmitchell@gmail.com,mjohnson.kicks@gmail.com"
+11,NEWYEAR30,New Year 30% off everything,percent,30,2024-12-26 00:00:00,2025-01-10 23:59:59,0,200,1,,,,,,,,0.00,,yes,no,
+12,REFER10,Referral code - $10 off for you and a friend,fixed_cart,10,2024-01-01 00:00:00,2025-12-31 23:59:59,18,0,1,,,,,,,,40.00,,no,no,
