@@ -145,7 +145,7 @@ class Admin {
             'restUrl'       => rest_url( 'rls/v1/' ),
             'nonce'         => wp_create_nonce( 'rls_nonce' ),
             'restNonce'     => wp_create_nonce( 'wp_rest' ),
-            'currency'      => get_woocommerce_currency_symbol(),
+            'currency'      => function_exists( 'get_woocommerce_currency_symbol' ) ? get_woocommerce_currency_symbol() : '$',
             'isFirstScan'   => ! get_option( 'rls_first_scan' ),
             'strings'       => array(
                 'scanning'      => __( 'Scanning your store...', 'revenue-leak-scanner' ),

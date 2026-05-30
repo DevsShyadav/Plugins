@@ -145,11 +145,13 @@ class Activator {
      * Set default plugin options.
      */
     private static function set_default_options() {
+        $currency = function_exists( 'get_woocommerce_currency' ) ? get_woocommerce_currency() : 'USD';
+
         $defaults = array(
             'rls_scan_frequency'     => 'weekly',
             'rls_email_reports'      => 'yes',
             'rls_report_email'       => get_option( 'admin_email' ),
-            'rls_currency'           => get_woocommerce_currency(),
+            'rls_currency'           => $currency,
             'rls_avg_order_value'    => 0,
             'rls_monthly_visitors'   => 0,
             'rls_monthly_orders'     => 0,

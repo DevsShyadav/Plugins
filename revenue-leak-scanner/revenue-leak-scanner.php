@@ -65,7 +65,26 @@ final class RevenueLeakScanner {
     }
 
     /**
+     * Check if WooCommerce is active (used during activation).
+     *
+     * @return bool
+     */
+    public static function is_woocommerce_active() {
+        if ( class_exists( 'WooCommerce' ) ) {
+            return true;
+        }
+
+        if ( ! function_exists( 'is_plugin_active' ) ) {
+            include_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
+
+        return is_plugin_active( 'woocommerce/woocommerce.php' );
+    }
+
+    /**
      * Check plugin requirements.
+     * Note: We do NOT prevent activation without WooCommerce.
+     * Instead we show a friendly admin notice.
      */
     private function check_requirements() {
         if ( ! function_exists( 'is_plugin_active' ) ) {
