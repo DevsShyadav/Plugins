@@ -69,6 +69,12 @@ class Scanner {
         $scan_type = $params['scan_type'] ?? 'full';
         $modules_to_run = $params['modules'] ?? array_keys( $this->modules );
 
+        // Clear all caches before scanning to ensure fresh data
+        Cache::flush_all();
+
+        // Reinitialize calculator with fresh data
+        $this->calculator = new Revenue_Calculator();
+
         // Create scan record
         $this->scan_id = Database::create_scan( $scan_type );
 
