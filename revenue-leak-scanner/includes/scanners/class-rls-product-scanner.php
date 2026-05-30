@@ -127,6 +127,15 @@ class Product_Scanner {
         );
 
         if ( (int) $products_without_images > 0 ) {
+            // Get actual product names for detail view
+            $affected_products = $wpdb->get_col(
+                "SELECT p.post_title FROM {$wpdb->posts} p
+                 LEFT JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id AND pm.meta_key = '_thumbnail_id'
+                 WHERE p.post_type = 'product' AND p.post_status = 'publish'
+                 AND (pm.meta_value IS NULL OR pm.meta_value = '' OR pm.meta_value = '0')
+                 LIMIT 10"
+            );
+
             $impact = $this->calculator->calculate_impact( 'missing_images', array(
                 'count'          => (int) $products_without_images,
                 'total_products' => (int) $total_products,
@@ -148,7 +157,7 @@ class Product_Scanner {
                 'fix_suggestion'   => __( 'Add high-quality product images to all products. Use multiple angles and lifestyle shots for best results.', 'revenue-leak-scanner' ),
                 'fix_difficulty'   => 'medium',
                 'fix_url'          => admin_url( 'edit.php?post_type=product' ),
-                'affected_items'   => array( 'product_images' ),
+                'affected_items'   => $affected_products,
             );
         }
 
@@ -178,6 +187,13 @@ class Product_Scanner {
             $percent = round( ( $products_without_reviews / $total_products ) * 100 );
 
             if ( $percent > 30 ) {
+                // Get actual product names without reviews
+                $affected_products = $wpdb->get_col(
+                    "SELECT post_title FROM {$wpdb->posts} 
+                     WHERE post_type = 'product' AND post_status = 'publish' AND comment_count = 0
+                     LIMIT 10"
+                );
+
                 $impact = $this->calculator->calculate_impact( 'missing_reviews', array(
                     'count'          => (int) $products_without_reviews,
                     'total_products' => (int) $total_products,
@@ -201,7 +217,7 @@ class Product_Scanner {
                     'fix_suggestion'   => __( 'Send post-purchase review request emails, offer incentives for reviews, and import existing reviews from other platforms.', 'revenue-leak-scanner' ),
                     'fix_difficulty'   => 'medium',
                     'fix_url'          => admin_url( 'edit.php?post_type=product' ),
-                    'affected_items'   => array( 'product_reviews' ),
+                    'affected_items'   => $affected_products,
                 );
             }
         }
@@ -233,6 +249,14 @@ class Product_Scanner {
             $percent = round( ( $products_short_desc / $total_products ) * 100 );
 
             if ( $percent > 20 ) {
+                // Get actual product names with weak descriptions
+                $affected_products = $wpdb->get_col(
+                    "SELECT post_title FROM {$wpdb->posts} 
+                     WHERE post_type = 'product' AND post_status = 'publish'
+                     AND (post_content = '' OR LENGTH(post_content) < 100)
+                     LIMIT 10"
+                );
+
                 $metrics = $this->calculator->get_metrics();
                 $impact = $metrics['monthly_revenue'] * ( $percent / 100 ) * 0.05;
 
@@ -252,7 +276,7 @@ class Product_Scanner {
                     'fix_suggestion'   => __( 'Write detailed product descriptions (300+ words) that cover features, benefits, specifications, and use cases. Include keywords for SEO.', 'revenue-leak-scanner' ),
                     'fix_difficulty'   => 'hard',
                     'fix_url'          => admin_url( 'edit.php?post_type=product' ),
-                    'affected_items'   => array( 'product_descriptions' ),
+                    'affected_items'   => $affected_products,
                 );
             }
         }
@@ -285,6 +309,18 @@ class Product_Scanner {
             $percent = round( ( $without_upsells / $total_products ) * 100 );
 
             if ( $percent > 50 ) {
+                // Get product names without upsells
+                $affected_products = $wpdb->get_col(
+                    "SELECT p.post_title FROM {$wpdb->posts} p
+                     WHERE p.post_type = 'product' AND p.post_status = 'publish'
+                     AND p.ID NOT IN (
+                         SELECT DISTINCT post_id FROM {$wpdb->postmeta}
+                         WHERE meta_key IN ('_upsell_ids', '_crosssell_ids')
+                         AND meta_value != '' AND meta_value != 'a:0:{}'
+                     )
+                     LIMIT 10"
+                );
+
                 $impact = $this->calculator->calculate_impact( 'missing_upsells', array(
                     'count'          => $without_upsells,
                     'total_products' => (int) $total_products,
@@ -307,7 +343,7 @@ class Product_Scanner {
                     'fix_suggestion'   => __( 'Add related products, upsells, and cross-sells to each product. Consider using automatic product recommendations based on purchase history.', 'revenue-leak-scanner' ),
                     'fix_difficulty'   => 'medium',
                     'fix_url'          => admin_url( 'edit.php?post_type=product' ),
-                    'affected_items'   => array( 'product_upsells' ),
+                    'affected_items'   => $affected_products,
                 );
             }
         }
