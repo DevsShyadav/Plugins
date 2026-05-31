@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Revenue Leak Scanner
- * Plugin URI: https://revenueleakscanner.com
+ * Plugin URI: https://devsarun.io/plugin/rev
  * Description: Discover exactly where your WooCommerce store is leaking money. One-click scan reveals revenue leaks with dollar amounts and fix priorities.
  * Version: 1.0.0
  * Author: Revenue Leak Scanner
- * Author URI: https://revenueleakscanner.com
+ * Author URI: https://devsarun.io
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: revenue-leak-scanner
