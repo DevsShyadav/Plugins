@@ -107,7 +107,6 @@ final class RevenueLeakScanner {
         require_once RLS_PLUGIN_DIR . 'includes/class-rls-rest-api.php';
         require_once RLS_PLUGIN_DIR . 'includes/class-rls-cache.php';
         require_once RLS_PLUGIN_DIR . 'includes/class-rls-security.php';
-        require_once RLS_PLUGIN_DIR . 'includes/class-rls-trial.php';
 
         // Scanner modules
         require_once RLS_PLUGIN_DIR . 'includes/scanners/class-rls-checkout-scanner.php';
@@ -141,22 +140,13 @@ final class RevenueLeakScanner {
             return;
         }
 
-        // Initialize trial system (always runs for countdown/notices)
-        Trial::get_instance();
-
-        // Initialize admin
+        // Pro version — no trial, no restrictions, full access always
         if ( is_admin() ) {
             Admin::get_instance();
-            // Only initialize scan functionality if trial is active
-            if ( Trial::is_active() ) {
-                Ajax::get_instance();
-            }
+            Ajax::get_instance();
         }
 
-        // Initialize REST API only if trial active
-        if ( Trial::is_active() ) {
-            Rest_API::get_instance();
-        }
+        Rest_API::get_instance();
     }
 
     /**
