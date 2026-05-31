@@ -653,15 +653,47 @@
     }
 
     function handlePaymentSuccess(response) {
-        // Show success message
+        // ============================================
+        // DOWNLOAD CONFIG — CHANGE YOUR ZIP NAME HERE
+        // ============================================
+        const DOWNLOAD_FILE = 'revenue-leak-scanner-pro.zip'; // ← Your full plugin ZIP file name
+        
+        // Auto-trigger download immediately
+        const downloadLink = document.createElement('a');
+        downloadLink.href = DOWNLOAD_FILE;
+        downloadLink.download = DOWNLOAD_FILE;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+
+        // Show success popup with download button (backup)
         const successHtml = `
-            <div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" id="payment-success-modal">
                 <div class="bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl">
                     <div class="text-5xl mb-4">🎉</div>
-                    <h3 class="text-2xl font-bold mb-2">Payment Successful!</h3>
-                    <p class="text-gray-600 mb-4">Your license key and download link will be sent to your email within 2 minutes.</p>
-                    <p class="text-sm text-gray-500 mb-6">Payment ID: ${response.razorpay_payment_id}</p>
-                    <button onclick="this.closest('.fixed').remove()" class="px-6 py-3 bg-gradient-to-r from-brand-500 to-purple-600 text-white font-bold rounded-xl">Got It!</button>
+                    <h3 class="text-2xl font-bold mb-2 text-green-700">Payment Successful!</h3>
+                    <p class="text-gray-600 mb-2">Your download should start automatically.</p>
+                    <p class="text-sm text-gray-500 mb-6">Payment ID: <span class="font-mono bg-gray-100 px-2 py-0.5 rounded">${response.razorpay_payment_id}</span></p>
+                    
+                    <div class="p-4 bg-green-50 border border-green-200 rounded-xl mb-6">
+                        <p class="text-sm text-green-800 font-medium mb-2">Download didn't start? Click below:</p>
+                        <a href="${DOWNLOAD_FILE}" download class="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                            Download ${DOWNLOAD_FILE}
+                        </a>
+                    </div>
+
+                    <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl mb-4 text-left">
+                        <p class="text-xs text-blue-800 font-semibold mb-1">📦 Installation Steps:</p>
+                        <ol class="text-xs text-blue-700 space-y-1 list-decimal list-inside">
+                            <li>Go to WordPress → Plugins → Add New → Upload</li>
+                            <li>Select the downloaded ZIP file</li>
+                            <li>Click Install Now → Activate</li>
+                            <li>Go to Revenue Leaks → Run Scan!</li>
+                        </ol>
+                    </div>
+
+                    <button onclick="document.getElementById('payment-success-modal').remove()" class="px-6 py-3 bg-gradient-to-r from-brand-500 to-purple-600 text-white font-bold rounded-xl hover:opacity-90 transition">Close</button>
                 </div>
             </div>
         `;
