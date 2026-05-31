@@ -11,8 +11,62 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $is_welcome = isset( $_GET['welcome'] ) && '1' === $_GET['welcome'];
 $has_first_scan = get_option( 'rls_first_scan', false );
+$trial_active = \RevenueLeakScanner\Trial::is_active();
+$trial_expired = \RevenueLeakScanner\Trial::is_expired();
+$trial_remaining = \RevenueLeakScanner\Trial::get_remaining_formatted();
+$trial_seconds = \RevenueLeakScanner\Trial::get_remaining_seconds();
+$is_pro = \RevenueLeakScanner\Trial::is_pro();
 ?>
 <div class="rls-app" id="rls-app">
+
+    <?php if ( ! $is_pro ) : ?>
+    <!-- Trial Timer Bar -->
+    <div class="rls-trial-bar" style="display:flex;align-items:center;justify-content:space-between;padding:12px 20px;margin-bottom:20px;border-radius:12px;<?php echo $trial_expired ? 'background:#FEF2F2;border:1px solid #FECACA;' : 'background:linear-gradient(135deg,#EEF2FF,#F5F3FF);border:1px solid #E0E7FF;'; ?>">
+        <div style="display:flex;align-items:center;gap:12px;">
+            <span style="font-size:20px;"><?php echo $trial_expired ? '🔒' : '⏱️'; ?></span>
+            <div>
+                <?php if ( $trial_expired ) : ?>
+                    <div style="font-weight:700;color:#DC2626;font-size:14px;">Trial Expired</div>
+                    <div style="color:#6B7280;font-size:12px;">Upgrade for lifetime access to all features</div>
+                <?php else : ?>
+                    <div style="font-weight:600;color:#4338CA;font-size:13px;">24-Hour Trial Active</div>
+                    <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+                        <span id="rls-trial-timer-value" style="font-family:monospace;font-size:20px;font-weight:800;color:#1F2937;"><?php echo esc_html( $trial_remaining ); ?></span>
+                        <span style="color:#6B7280;font-size:11px;">remaining</span>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+            <?php if ( ! $trial_expired ) : ?>
+            <div style="width:120px;height:6px;background:#E5E7EB;border-radius:99px;overflow:hidden;">
+                <div id="rls-trial-progress" style="height:100%;width:<?php echo round( ( $trial_seconds / 86400 ) * 100 ); ?>%;background:linear-gradient(90deg,#667EEA,#764BA2);border-radius:99px;transition:width 1s;"></div>
+            </div>
+            <?php endif; ?>
+            <a href="https://revenueleakscanner.com/#pricing" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:linear-gradient(135deg,#667EEA,#764BA2);color:#fff;font-weight:700;font-size:12px;border-radius:8px;text-decoration:none;white-space:nowrap;">🚀 Upgrade — $19</a>
+        </div>
+    </div>
+
+    <!-- License Key Input (collapsible) -->
+    <div style="margin-bottom:16px;text-align:right;">
+        <button onclick="document.getElementById('rls-license-box').classList.toggle('hidden')" style="background:none;border:none;color:#667EEA;font-size:12px;font-weight:600;cursor:pointer;">🔑 Enter License Key</button>
+        <div id="rls-license-box" class="hidden" style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;">
+            <input type="text" id="rls-license-input" placeholder="Enter your license key" style="padding:8px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px;width:250px;">
+            <button onclick="activateLicense()" style="padding:8px 14px;background:#10B981;color:#fff;font-weight:600;font-size:12px;border:none;border-radius:6px;cursor:pointer;">Activate</button>
+        </div>
+    </div>
+    <script>
+    function activateLicense(){
+        var key=document.getElementById('rls-license-input').value.trim();
+        if(!key){alert('Enter a license key');return;}
+        jQuery.post(rlsAdmin.ajaxUrl,{action:'rls_activate_license',nonce:rlsAdmin.nonce,license_key:key},function(r){
+            if(r.success){alert('✅ '+r.data.message);location.reload();}
+            else alert('❌ '+(r.data?.message||'Invalid key'));
+        });
+    }
+    </script>
+    <?php endif; ?>
+
     <!-- Header -->
     <div class="rls-app__header">
         <div class="rls-app__header-left">
