@@ -102,29 +102,27 @@ class Admin {
      * @param string $hook Current admin page hook.
      */
     public function enqueue_assets( $hook ) {
-        $rls_pages = array(
-            'toplevel_page_revenue-leak-scanner',
-            'revenue-leaks_page_rls-results',
-            'revenue-leaks_page_rls-history',
-            'revenue-leaks_page_rls-settings',
-        );
-
-        if ( ! in_array( $hook, $rls_pages, true ) ) {
+        // Match any page that belongs to our plugin
+        if ( strpos( $hook, 'revenue-leak-scanner' ) === false && strpos( $hook, 'rls-' ) === false ) {
             return;
         }
+
+        // Use filemtime for cache busting during development
+        $css_ver = filemtime( RLS_PLUGIN_DIR . 'assets/css/admin.css' );
+        $js_ver = filemtime( RLS_PLUGIN_DIR . 'assets/js/admin.js' );
 
         // Main CSS
         wp_enqueue_style(
             'rls-admin',
             RLS_PLUGIN_URL . 'assets/css/admin.css',
             array(),
-            RLS_VERSION
+            $css_ver
         );
 
-        // Chart.js for visualizations
+        // Chart.js from CDN (reliable)
         wp_enqueue_script(
             'rls-chartjs',
-            RLS_PLUGIN_URL . 'assets/js/vendor/chart.min.js',
+            'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js',
             array(),
             '4.4.0',
             true
@@ -135,7 +133,7 @@ class Admin {
             'rls-admin',
             RLS_PLUGIN_URL . 'assets/js/admin.js',
             array( 'jquery', 'rls-chartjs' ),
-            RLS_VERSION,
+            $js_ver,
             true
         );
 
