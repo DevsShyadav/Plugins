@@ -503,11 +503,11 @@
                     </div>
                     <span class="text-white font-bold">Revenue Leak Scanner</span>
                 </div>
-                <div class="flex gap-6 text-sm">
+                <div class="flex flex-wrap justify-center gap-6 text-sm">
                     <a href="#" class="hover:text-white transition">Privacy Policy</a>
                     <a href="#" class="hover:text-white transition">Terms of Service</a>
                     <a href="#" class="hover:text-white transition">Refund Policy</a>
-                    <a href="mailto:support@revenueleakscanner.com" class="hover:text-white transition">Support</a>
+                    <a href="mailto:itsdevsarun@gmail.com" class="hover:text-white transition">Support: itsdevsarun@gmail.com</a>
                 </div>
                 <p class="text-sm">© 2024 Revenue Leak Scanner. All rights reserved.</p>
             </div>
@@ -515,8 +515,92 @@
     </footer>
 
 
+    <!-- FLOATING WHATSAPP SUPPORT WIDGET -->
+    <div id="wa-widget" class="fixed bottom-6 left-6 z-50">
+        <!-- WhatsApp Button -->
+        <button id="wa-toggle" onclick="toggleWhatsApp()" class="w-14 h-14 bg-green-500 hover:bg-green-600 rounded-full shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40 transition-all duration-300 flex items-center justify-center hover:scale-110">
+            <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </button>
+
+        <!-- Support Form Popup -->
+        <div id="wa-form" class="hidden absolute bottom-20 left-0 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
+            <!-- Header -->
+            <div class="bg-green-500 px-5 py-4 text-white">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        <div>
+                            <div class="font-bold text-sm">Need Help?</div>
+                            <div class="text-xs text-green-100">We reply within minutes</div>
+                        </div>
+                    </div>
+                    <button onclick="toggleWhatsApp()" class="text-white/80 hover:text-white text-xl">&times;</button>
+                </div>
+            </div>
+            <!-- Form -->
+            <div class="p-5">
+                <form id="wa-support-form" onsubmit="sendWhatsApp(event)">
+                    <div class="space-y-3">
+                        <div>
+                            <label class="text-xs font-semibold text-gray-600 mb-1 block">Your Name *</label>
+                            <input type="text" id="wa-name" required placeholder="John Doe" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20">
+                        </div>
+                        <div>
+                            <label class="text-xs font-semibold text-gray-600 mb-1 block">Email *</label>
+                            <input type="email" id="wa-email" required placeholder="john@example.com" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20">
+                        </div>
+                        <div>
+                            <label class="text-xs font-semibold text-gray-600 mb-1 block">Contact Number *</label>
+                            <input type="tel" id="wa-phone" required placeholder="+1 234 567 8900" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20">
+                        </div>
+                        <div>
+                            <label class="text-xs font-semibold text-gray-600 mb-1 block">Describe Your Issue *</label>
+                            <textarea id="wa-message" required rows="3" placeholder="Tell us what you need help with..." class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm resize-none focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20"></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full mt-4 px-5 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg transition-all flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                        Send via WhatsApp
+                    </button>
+                </form>
+                <p class="text-xs text-gray-400 text-center mt-3">Opens WhatsApp with your message</p>
+            </div>
+        </div>
+    </div>
+
     <!-- JAVASCRIPT -->
     <script>
+    // ============================================
+    // WHATSAPP SUPPORT WIDGET
+    // ============================================
+    function toggleWhatsApp() {
+        const form = document.getElementById('wa-form');
+        form.classList.toggle('hidden');
+    }
+
+    function sendWhatsApp(e) {
+        e.preventDefault();
+        const name = document.getElementById('wa-name').value.trim();
+        const email = document.getElementById('wa-email').value.trim();
+        const phone = document.getElementById('wa-phone').value.trim();
+        const message = document.getElementById('wa-message').value.trim();
+
+        if (!name || !email || !phone || !message) {
+            alert('Please fill all fields');
+            return;
+        }
+
+        // Format the WhatsApp message
+        const waMessage = `🆘 *Support Request - Revenue Leak Scanner*%0A%0A👤 *Name:* ${encodeURIComponent(name)}%0A📧 *Email:* ${encodeURIComponent(email)}%0A📞 *Phone:* ${encodeURIComponent(phone)}%0A%0A📝 *Issue:*%0A${encodeURIComponent(message)}`;
+
+        // Open WhatsApp with pre-filled message
+        const waUrl = `https://wa.me/917654758443?text=${waMessage}`;
+        window.open(waUrl, '_blank');
+
+        // Show success
+        document.getElementById('wa-form').innerHTML = '<div class="p-8 text-center"><div class="text-4xl mb-3">✅</div><h4 class="font-bold text-lg">Message Sent!</h4><p class="text-sm text-gray-600 mt-2">WhatsApp opened with your message. We\'ll reply shortly!</p></div>';
+    }
+
     // ============================================
     // CONFIGURATION - PUT YOUR RAZORPAY KEY HERE
     // ============================================
