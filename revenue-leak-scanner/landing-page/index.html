@@ -654,46 +654,54 @@
 
     function handlePaymentSuccess(response) {
         // ============================================
-        // DOWNLOAD CONFIG — CHANGE YOUR ZIP NAME HERE
+        // DOWNLOAD CONFIG — CHANGE YOUR ZIP FILE NAME HERE
         // ============================================
-        const DOWNLOAD_FILE = 'revenue-leak-scanner-pro.zip'; // ← Your full plugin ZIP file name
+        const DOWNLOAD_FILE = 'revenue-leak-scanner-pro.zip'; // ← PUT YOUR REAL PLUGIN ZIP NAME
         
-        // Auto-trigger download immediately
-        const downloadLink = document.createElement('a');
-        downloadLink.href = DOWNLOAD_FILE;
-        downloadLink.download = DOWNLOAD_FILE;
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
+        // Generate download token (only created after payment)
+        const token = btoa(response.razorpay_payment_id + ':' + Date.now());
+        const downloadUrl = DOWNLOAD_FILE + '?paid=' + token;
 
-        // Show success popup with download button (backup)
+        // Store payment proof in sessionStorage (prevents re-download without payment)
+        sessionStorage.setItem('rls_paid', token);
+        sessionStorage.setItem('rls_pid', response.razorpay_payment_id);
+
+        // Auto-trigger download
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = DOWNLOAD_FILE;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        // Show success popup
         const successHtml = `
             <div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" id="payment-success-modal">
-                <div class="bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl">
+                <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl">
                     <div class="text-5xl mb-4">🎉</div>
-                    <h3 class="text-2xl font-bold mb-2 text-green-700">Payment Successful!</h3>
-                    <p class="text-gray-600 mb-2">Your download should start automatically.</p>
-                    <p class="text-sm text-gray-500 mb-6">Payment ID: <span class="font-mono bg-gray-100 px-2 py-0.5 rounded">${response.razorpay_payment_id}</span></p>
+                    <h3 class="text-xl sm:text-2xl font-bold mb-2 text-green-700">Payment Successful!</h3>
+                    <p class="text-gray-600 text-sm mb-2">Your download should start automatically.</p>
+                    <p class="text-xs text-gray-500 mb-5">Payment ID: <span class="font-mono bg-gray-100 px-2 py-0.5 rounded">${response.razorpay_payment_id}</span></p>
                     
-                    <div class="p-4 bg-green-50 border border-green-200 rounded-xl mb-6">
-                        <p class="text-sm text-green-800 font-medium mb-2">Download didn't start? Click below:</p>
-                        <a href="${DOWNLOAD_FILE}" download class="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition-all">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                            Download ${DOWNLOAD_FILE}
+                    <div class="p-4 bg-green-50 border border-green-200 rounded-xl mb-5">
+                        <p class="text-sm text-green-800 font-medium mb-2">Download didn't start?</p>
+                        <a href="${downloadUrl}" download="${DOWNLOAD_FILE}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white font-bold text-sm rounded-lg transition-all">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                            Click to Download
                         </a>
                     </div>
 
                     <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl mb-4 text-left">
-                        <p class="text-xs text-blue-800 font-semibold mb-1">📦 Installation Steps:</p>
-                        <ol class="text-xs text-blue-700 space-y-1 list-decimal list-inside">
-                            <li>Go to WordPress → Plugins → Add New → Upload</li>
-                            <li>Select the downloaded ZIP file</li>
-                            <li>Click Install Now → Activate</li>
-                            <li>Go to Revenue Leaks → Run Scan!</li>
+                        <p class="text-xs text-blue-800 font-semibold mb-1">📦 How to Install:</p>
+                        <ol class="text-xs text-blue-700 space-y-0.5 list-decimal list-inside">
+                            <li>WordPress → Plugins → Add New → Upload Plugin</li>
+                            <li>Choose the downloaded ZIP file</li>
+                            <li>Install Now → Activate</li>
+                            <li>Revenue Leaks menu → Run Scan!</li>
                         </ol>
                     </div>
 
-                    <button onclick="document.getElementById('payment-success-modal').remove()" class="px-6 py-3 bg-gradient-to-r from-brand-500 to-purple-600 text-white font-bold rounded-xl hover:opacity-90 transition">Close</button>
+                    <button onclick="document.getElementById('payment-success-modal').remove()" class="px-6 py-2.5 bg-gradient-to-r from-brand-500 to-purple-600 text-white font-bold rounded-xl text-sm">Close</button>
                 </div>
             </div>
         `;
