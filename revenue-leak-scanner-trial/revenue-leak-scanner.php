@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Revenue Leak Scanner — Trial
+ * Plugin Name: Revenue Leak Scanner — 24h Trial
  * Plugin URI: https://revenueleakscanner.com
- * Description: [24-HOUR TRIAL] Discover exactly where your WooCommerce store leaks money. Full access for 24 hours.
- * Version: 1.0.0-trial
+ * Description: [24-HOUR TRIAL] Discover exactly where your WooCommerce store leaks money. Full access for 24 hours, then auto-expires.
+ * Version: 1.0.0
  * Author: Revenue Leak Scanner
  * Author URI: https://revenueleakscanner.com
  * License: GPL v2 or later
@@ -22,15 +22,28 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'RLS_VERSION', '1.0.0-trial' );
-define( 'RLS_PLUGIN_FILE', __FILE__ );
-define( 'RLS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'RLS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'RLS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
-define( 'RLS_IS_TRIAL', true );
-define( 'RLS_TRIAL_HOURS', 24 );
-define( 'RLS_BUY_URL', 'https://revenueleakscanner.com/#pricing' );
+// Only define if not already defined (prevents conflict with pro version)
+if ( ! defined( 'RLS_VERSION' ) ) {
+    define( 'RLS_VERSION', '1.0.0' );
+    define( 'RLS_PLUGIN_FILE', __FILE__ );
+    define( 'RLS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+    define( 'RLS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+    define( 'RLS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+}
 
+if ( ! defined( 'RLS_IS_TRIAL' ) ) {
+    define( 'RLS_IS_TRIAL', true );
+}
+if ( ! defined( 'RLS_TRIAL_HOURS' ) ) {
+    define( 'RLS_TRIAL_HOURS', 24 );
+}
+if ( ! defined( 'RLS_BUY_URL' ) ) {
+    define( 'RLS_BUY_URL', 'https://revenueleakscanner.com/#pricing' );
+}
+
+/**
+ * Main plugin class.
+ */
 final class RevenueLeakScanner {
 
     private static $instance = null;
@@ -43,42 +56,40 @@ final class RevenueLeakScanner {
     }
 
     private function __construct() {
-        $this->check_requirements();
+        if ( ! function_exists( 'is_plugin_active' ) ) {
+            include_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
         $this->load_dependencies();
         $this->init_hooks();
         $this->start_trial_clock();
     }
 
-    private function check_requirements() {
-        if ( ! function_exists( 'is_plugin_active' ) ) {
-            include_once ABSPATH . 'wp-admin/includes/plugin.php';
-        }
-    }
-
     private function load_dependencies() {
-        require_once RLS_PLUGIN_DIR . 'includes/class-rls-activator.php';
-        require_once RLS_PLUGIN_DIR . 'includes/class-rls-deactivator.php';
-        require_once RLS_PLUGIN_DIR . 'includes/class-rls-database.php';
-        require_once RLS_PLUGIN_DIR . 'includes/class-rls-scanner.php';
-        require_once RLS_PLUGIN_DIR . 'includes/class-rls-revenue-calculator.php';
-        require_once RLS_PLUGIN_DIR . 'includes/class-rls-admin.php';
-        require_once RLS_PLUGIN_DIR . 'includes/class-rls-ajax.php';
-        require_once RLS_PLUGIN_DIR . 'includes/class-rls-rest-api.php';
-        require_once RLS_PLUGIN_DIR . 'includes/class-rls-cache.php';
-        require_once RLS_PLUGIN_DIR . 'includes/class-rls-security.php';
-        require_once RLS_PLUGIN_DIR . 'includes/class-rls-trial.php';
+        $dir = plugin_dir_path( __FILE__ );
 
-        require_once RLS_PLUGIN_DIR . 'includes/scanners/class-rls-checkout-scanner.php';
-        require_once RLS_PLUGIN_DIR . 'includes/scanners/class-rls-product-scanner.php';
-        require_once RLS_PLUGIN_DIR . 'includes/scanners/class-rls-performance-scanner.php';
-        require_once RLS_PLUGIN_DIR . 'includes/scanners/class-rls-mobile-scanner.php';
-        require_once RLS_PLUGIN_DIR . 'includes/scanners/class-rls-seo-scanner.php';
-        require_once RLS_PLUGIN_DIR . 'includes/scanners/class-rls-trust-scanner.php';
+        require_once $dir . 'includes/class-rls-activator.php';
+        require_once $dir . 'includes/class-rls-deactivator.php';
+        require_once $dir . 'includes/class-rls-database.php';
+        require_once $dir . 'includes/class-rls-scanner.php';
+        require_once $dir . 'includes/class-rls-revenue-calculator.php';
+        require_once $dir . 'includes/class-rls-admin.php';
+        require_once $dir . 'includes/class-rls-ajax.php';
+        require_once $dir . 'includes/class-rls-rest-api.php';
+        require_once $dir . 'includes/class-rls-cache.php';
+        require_once $dir . 'includes/class-rls-security.php';
+        require_once $dir . 'includes/class-rls-trial.php';
+
+        require_once $dir . 'includes/scanners/class-rls-checkout-scanner.php';
+        require_once $dir . 'includes/scanners/class-rls-product-scanner.php';
+        require_once $dir . 'includes/scanners/class-rls-performance-scanner.php';
+        require_once $dir . 'includes/scanners/class-rls-mobile-scanner.php';
+        require_once $dir . 'includes/scanners/class-rls-seo-scanner.php';
+        require_once $dir . 'includes/scanners/class-rls-trust-scanner.php';
     }
 
     private function init_hooks() {
-        register_activation_hook( RLS_PLUGIN_FILE, array( 'RevenueLeakScanner\\Activator', 'activate' ) );
-        register_deactivation_hook( RLS_PLUGIN_FILE, array( 'RevenueLeakScanner\\Deactivator', 'deactivate' ) );
+        register_activation_hook( __FILE__, array( 'RevenueLeakScanner\\Activator', 'activate' ) );
+        register_deactivation_hook( __FILE__, array( 'RevenueLeakScanner\\Deactivator', 'deactivate' ) );
 
         add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ) );
         add_action( 'init', array( $this, 'load_textdomain' ) );
@@ -107,13 +118,11 @@ final class RevenueLeakScanner {
             return;
         }
 
-        // Always init trial (for countdown display)
+        // Always init trial system
         Trial::get_instance();
 
         if ( is_admin() ) {
             Admin::get_instance();
-
-            // Block scan if expired
             if ( ! self::is_trial_expired() ) {
                 Ajax::get_instance();
             }
@@ -125,18 +134,18 @@ final class RevenueLeakScanner {
     }
 
     public function load_textdomain() {
-        load_plugin_textdomain( 'revenue-leak-scanner', false, dirname( RLS_PLUGIN_BASENAME ) . '/languages' );
+        load_plugin_textdomain( 'revenue-leak-scanner', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
     }
 
     public function declare_hpos_compatibility() {
         if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
-            \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', RLS_PLUGIN_FILE, true );
+            \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
         }
     }
 
     public function woocommerce_missing_notice() {
         echo '<div class="notice notice-error"><p>';
-        printf( esc_html__( 'Revenue Leak Scanner requires %s to be installed and active.', 'revenue-leak-scanner' ), '<a href="https://woocommerce.com/" target="_blank">WooCommerce</a>' );
+        echo wp_kses_post( sprintf( __( 'Revenue Leak Scanner requires %s to be installed and active.', 'revenue-leak-scanner' ), '<a href="https://woocommerce.com/" target="_blank">WooCommerce</a>' ) );
         echo '</p></div>';
     }
 }

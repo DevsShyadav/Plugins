@@ -14,8 +14,8 @@ $has_first_scan = get_option( 'rls_first_scan', false );
 $trial_active = \RevenueLeakScanner\Trial::is_active();
 $trial_expired = \RevenueLeakScanner\Trial::is_expired();
 $trial_remaining = \RevenueLeakScanner\Trial::get_remaining_formatted();
-$trial_seconds = \RevenueLeakScanner\Trial::get_remaining_seconds();
-$is_pro = \RevenueLeakScanner\Trial::is_pro();
+$trial_seconds = \RevenueLeakScanner\RevenueLeakScanner::trial_remaining();
+$is_pro = false;
 ?>
 <div class="rls-app" id="rls-app">
 
