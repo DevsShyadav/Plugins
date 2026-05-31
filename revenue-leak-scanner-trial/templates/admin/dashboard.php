@@ -43,7 +43,7 @@ $is_pro = false;
                 <div id="rls-trial-progress" style="height:100%;width:<?php echo round( ( $trial_seconds / 86400 ) * 100 ); ?>%;background:linear-gradient(90deg,#667EEA,#764BA2);border-radius:99px;transition:width 1s;"></div>
             </div>
             <?php endif; ?>
-            <a href="https://revenueleakscanner.com/#pricing" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:linear-gradient(135deg,#667EEA,#764BA2);color:#fff;font-weight:700;font-size:12px;border-radius:8px;text-decoration:none;white-space:nowrap;">🚀 Upgrade — $19</a>
+            <a href="https://devsarun.io/plugin/rev/" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:linear-gradient(135deg,#667EEA,#764BA2);color:#fff;font-weight:700;font-size:12px;border-radius:8px;text-decoration:none;white-space:nowrap;">🚀 Upgrade — $19</a>
         </div>
     </div>
 
