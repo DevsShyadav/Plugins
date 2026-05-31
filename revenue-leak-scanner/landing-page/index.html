@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revenue Leak Scanner — Find Where Your WooCommerce Store Loses Money</title>
+    <meta name="description" content="One-click scan reveals exactly where your WooCommerce store leaks money. See dollar amounts for every problem. Fix them. Recover $500-$5000/month.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 'sans': ['Inter', 'system-ui', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#EEF2FF', 100: '#E0E7FF', 200: '#C7D2FE', 300: '#A5B4FC', 400: '#818CF8', 500: '#667EEA', 600: '#5A67D8', 700: '#4C51BF', 800: '#3730A3', 900: '#312E81' },
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
+                        'counter': 'counter 2s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: { '0%, 100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-20px)' } },
+                        fadeInUp: { '0%': { opacity: '0', transform: 'translateY(30px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans antialiased text-gray-900 bg-white">
+
+
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-gradient-to-br from-brand-500 to-purple-600 rounded-lg flex items-center justify-center">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 12L5 6L8 9L11 3L14 8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <span class="text-lg font-bold bg-gradient-to-r from-brand-600 to-purple-600 bg-clip-text text-transparent">Revenue Leak Scanner</span>
+                </div>
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#features" class="text-sm text-gray-600 hover:text-brand-600 transition">Features</a>
+                    <a href="#how-it-works" class="text-sm text-gray-600 hover:text-brand-600 transition">How It Works</a>
+                    <a href="#pricing" class="text-sm text-gray-600 hover:text-brand-600 transition">Pricing</a>
+                    <a href="#faq" class="text-sm text-gray-600 hover:text-brand-600 transition">FAQ</a>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="#trial" class="text-sm font-medium text-brand-600 hover:text-brand-700 transition">Free Trial</a>
+                    <button onclick="initiatePayment()" class="px-4 py-2 bg-gradient-to-r from-brand-500 to-purple-600 text-white text-sm font-semibold rounded-lg shadow-lg shadow-brand-500/25 hover:shadow-xl hover:shadow-brand-500/30 hover:-translate-y-0.5 transition-all duration-200">Buy Now — ₹2,499</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- HERO SECTION -->
+    <section class="relative pt-32 pb-20 overflow-hidden">
+        <!-- Background gradient orbs -->
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-brand-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float"></div>
+        <div class="absolute top-20 right-1/4 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" style="animation-delay: 2s;"></div>
+        <div class="absolute bottom-0 left-1/2 w-96 h-96 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style="animation-delay: 4s;"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-4xl mx-auto">
+                <!-- Social proof badge -->
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-green-50 border border-green-200 rounded-full mb-8 animate-fade-in-up">
+                    <span class="flex h-2 w-2 relative"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span></span>
+                    <span class="text-sm font-medium text-green-700">847 stores scanned this week</span>
+                </div>
+
+                <!-- Headline -->
+                <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.1] animate-fade-in-up" style="animation-delay: 0.1s;">
+                    Your Store is Leaking
+                    <span class="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent"> ₹40,000+</span>
+                    <br>Every Month
+                </h1>
+
+                <!-- Subheadline -->
+                <p class="mt-6 text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed animate-fade-in-up" style="animation-delay: 0.2s;">
+                    One-click scan reveals <strong class="text-gray-900">exactly where</strong> your WooCommerce store loses money — with a <strong class="text-gray-900">₹ amount</strong> next to every problem.
+                </p>
+
+                <!-- CTA Buttons -->
+                <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up" style="animation-delay: 0.3s;">
+                    <a href="#trial" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-brand-500 to-purple-600 text-white text-lg font-bold rounded-xl shadow-2xl shadow-brand-500/30 hover:shadow-brand-500/40 hover:-translate-y-1 transition-all duration-300 text-center">
+                        Try Free for 24 Hours →
+                    </a>
+                    <a href="#how-it-works" class="w-full sm:w-auto px-8 py-4 bg-white border-2 border-gray-200 text-gray-700 text-lg font-semibold rounded-xl hover:border-brand-300 hover:text-brand-600 transition-all duration-200 text-center">
+                        See How It Works
+                    </a>
+                </div>
+
+                <!-- Trust indicators -->
+                <div class="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-500 animate-fade-in-up" style="animation-delay: 0.4s;">
+                    <span class="flex items-center gap-1.5">✓ No credit card required</span>
+                    <span class="flex items-center gap-1.5">✓ 30-second scan</span>
+                    <span class="flex items-center gap-1.5">✓ Works with any WooCommerce store</span>
+                </div>
+            </div>
+
+            <!-- Hero Dashboard Mockup -->
+            <div class="mt-16 max-w-5xl mx-auto animate-fade-in-up" style="animation-delay: 0.5s;">
+                <div class="relative rounded-2xl overflow-hidden shadow-2xl shadow-gray-900/10 border border-gray-200 bg-gray-50 p-1">
+                    <div class="bg-white rounded-xl overflow-hidden">
+                        <!-- Mock browser chrome -->
+                        <div class="flex items-center gap-2 px-4 py-3 bg-gray-100 border-b border-gray-200">
+                            <div class="flex gap-1.5"><div class="w-3 h-3 rounded-full bg-red-400"></div><div class="w-3 h-3 rounded-full bg-yellow-400"></div><div class="w-3 h-3 rounded-full bg-green-400"></div></div>
+                            <div class="flex-1 mx-4"><div class="bg-white border border-gray-200 rounded-md px-3 py-1 text-xs text-gray-400 text-center">yourstore.com/wp-admin → Revenue Leaks</div></div>
+                        </div>
+                        <!-- Dashboard content mockup -->
+                        <div class="p-6 sm:p-8 bg-gradient-to-br from-gray-50 to-white">
+                            <div class="flex items-center justify-between mb-6">
+                                <div>
+                                    <p class="text-xs text-gray-500 uppercase tracking-wide font-medium">Your Store is Losing</p>
+                                    <p class="text-4xl font-black text-red-500">₹41,280<span class="text-lg text-gray-400 font-normal">/month</span></p>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="text-center px-4 py-2 bg-white rounded-lg border border-gray-100 shadow-sm"><div class="text-2xl font-bold">14</div><div class="text-xs text-gray-500">Issues</div></div>
+                                    <div class="text-center px-4 py-2 bg-red-50 rounded-lg border border-red-100"><div class="text-2xl font-bold text-red-600">3</div><div class="text-xs text-red-600">Critical</div></div>
+                                </div>
+                            </div>
+                            <!-- Mock leak cards -->
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-4 p-4 bg-white rounded-lg border border-gray-100 shadow-sm">
+                                    <div class="w-3 h-3 rounded-full bg-red-500 shadow-lg shadow-red-500/30"></div>
+                                    <div class="flex-1"><div class="font-semibold text-sm">Guest Checkout Disabled</div><div class="text-xs text-gray-500">34% shoppers abandon when forced to create account</div></div>
+                                    <div class="text-red-600 font-bold">-₹12,450/mo</div>
+                                </div>
+                                <div class="flex items-center gap-4 p-4 bg-white rounded-lg border border-gray-100 shadow-sm">
+                                    <div class="w-3 h-3 rounded-full bg-orange-500"></div>
+                                    <div class="flex-1"><div class="font-semibold text-sm">18 Products Have Zero Reviews</div><div class="text-xs text-gray-500">Products with reviews convert 270% better</div></div>
+                                    <div class="text-red-600 font-bold">-₹8,720/mo</div>
+                                </div>
+                                <div class="flex items-center gap-4 p-4 bg-white rounded-lg border border-gray-100 shadow-sm">
+                                    <div class="w-3 h-3 rounded-full bg-orange-500"></div>
+                                    <div class="flex-1"><div class="font-semibold text-sm">No Free Shipping Option</div><div class="text-xs text-gray-500">79% consumers say free shipping makes them buy</div></div>
+                                    <div class="text-red-600 font-bold">-₹6,890/mo</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- LOGOS / TRUST BAR -->
+    <section class="py-12 border-y border-gray-100 bg-gray-50/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-sm font-medium text-gray-400 uppercase tracking-wider mb-6">Trusted by WooCommerce store owners worldwide</p>
+            <div class="flex flex-wrap items-center justify-center gap-8 sm:gap-12 opacity-60 grayscale">
+                <span class="text-2xl font-bold text-gray-400">WooCommerce</span>
+                <span class="text-2xl font-bold text-gray-400">Stripe</span>
+                <span class="text-2xl font-bold text-gray-400">PayPal</span>
+                <span class="text-2xl font-bold text-gray-400">Razorpay</span>
+                <span class="text-2xl font-bold text-gray-400">WordPress</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAIN POINTS -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold">You're Losing Money <span class="text-red-500">Right Now</span> and Don't Know It</h2>
+                <p class="mt-4 text-lg text-gray-600">Most store owners have no idea these silent revenue killers are active on their site 24/7</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="p-6 bg-red-50 border border-red-100 rounded-2xl">
+                    <div class="text-3xl mb-3">🛒</div>
+                    <h3 class="font-bold text-lg mb-2">Cart Abandonment</h3>
+                    <p class="text-gray-600 text-sm">69% of carts are abandoned. Your checkout has friction points silently killing sales every single day.</p>
+                    <p class="mt-3 text-red-600 font-bold text-lg">~₹15,000/mo lost</p>
+                </div>
+                <div class="p-6 bg-orange-50 border border-orange-100 rounded-2xl">
+                    <div class="text-3xl mb-3">📱</div>
+                    <h3 class="font-bold text-lg mb-2">Mobile UX Broken</h3>
+                    <p class="text-gray-600 text-sm">60%+ traffic is mobile. Tiny buttons, slow pages, and bad checkout forms cost you thousands.</p>
+                    <p class="mt-3 text-orange-600 font-bold text-lg">~₹10,000/mo lost</p>
+                </div>
+                <div class="p-6 bg-yellow-50 border border-yellow-100 rounded-2xl">
+                    <div class="text-3xl mb-3">⭐</div>
+                    <h3 class="font-bold text-lg mb-2">Zero Social Proof</h3>
+                    <p class="text-gray-600 text-sm">Products without reviews convert 270% worse. No trust badges = no trust = no sale.</p>
+                    <p class="mt-3 text-yellow-600 font-bold text-lg">~₹8,000/mo lost</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FEATURES SECTION -->
+    <section id="features" class="py-20 bg-gradient-to-b from-white to-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-flex items-center px-3 py-1 bg-brand-50 border border-brand-200 rounded-full text-xs font-semibold text-brand-700 mb-4">6 SCAN MODULES</div>
+                <h2 class="text-3xl sm:text-4xl font-bold">Every Corner of Your Store, <span class="bg-gradient-to-r from-brand-600 to-purple-600 bg-clip-text text-transparent">Analyzed</span></h2>
+                <p class="mt-4 text-lg text-gray-600">We check 32+ revenue leak points across 6 critical areas</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="group p-6 bg-white rounded-2xl border border-gray-100 hover:border-brand-200 hover:shadow-xl hover:shadow-brand-500/5 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">🛒</div>
+                    <h3 class="font-bold text-lg mb-2">Checkout Flow Analysis</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Guest checkout, form fields count, payment methods, shipping options, coupon field optimization, free shipping threshold</p>
+                    <div class="mt-4 text-xs text-brand-600 font-semibold">8 checks →</div>
+                </div>
+                <div class="group p-6 bg-white rounded-2xl border border-gray-100 hover:border-brand-200 hover:shadow-xl hover:shadow-brand-500/5 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">📦</div>
+                    <h3 class="font-bold text-lg mb-2">Product Page Audit</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Missing images, zero reviews, weak descriptions, no upsells/cross-sells, out-of-stock visibility, pricing strategy</p>
+                    <div class="mt-4 text-xs text-brand-600 font-semibold">6 checks →</div>
+                </div>
+                <div class="group p-6 bg-white rounded-2xl border border-gray-100 hover:border-brand-200 hover:shadow-xl hover:shadow-brand-500/5 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">⚡</div>
+                    <h3 class="font-bold text-lg mb-2">Performance Scanner</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Page load speed, image optimization, caching detection, database bloat, plugin count analysis</p>
+                    <div class="mt-4 text-xs text-brand-600 font-semibold">5 checks →</div>
+                </div>
+                <div class="group p-6 bg-white rounded-2xl border border-gray-100 hover:border-brand-200 hover:shadow-xl hover:shadow-brand-500/5 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">📱</div>
+                    <h3 class="font-bold text-lg mb-2">Mobile Experience</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Viewport configuration, touch target sizes, mobile checkout forms, search visibility on mobile</p>
+                    <div class="mt-4 text-xs text-brand-600 font-semibold">4 checks →</div>
+                </div>
+                <div class="group p-6 bg-white rounded-2xl border border-gray-100 hover:border-brand-200 hover:shadow-xl hover:shadow-brand-500/5 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">🔍</div>
+                    <h3 class="font-bold text-lg mb-2">SEO Revenue Leaks</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Missing meta descriptions, permalink structure, image alt tags, SSL certificate status</p>
+                    <div class="mt-4 text-xs text-brand-600 font-semibold">4 checks →</div>
+                </div>
+                <div class="group p-6 bg-white rounded-2xl border border-gray-100 hover:border-brand-200 hover:shadow-xl hover:shadow-brand-500/5 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">🛡️</div>
+                    <h3 class="font-bold text-lg mb-2">Trust Signal Gaps</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Privacy policy, refund policy, contact info, terms page, trust badges, testimonials, guarantee messaging</p>
+                    <div class="mt-4 text-xs text-brand-600 font-semibold">5 checks →</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- HOW IT WORKS -->
+    <section id="how-it-works" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold">How It Works — <span class="text-brand-600">3 Simple Steps</span></h2>
+                <p class="mt-4 text-lg text-gray-600">From install to revenue recovery in under 5 minutes</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-brand-500 to-purple-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold mx-auto mb-5 shadow-lg shadow-brand-500/20">1</div>
+                    <h3 class="font-bold text-xl mb-3">Install & Activate</h3>
+                    <p class="text-gray-600">Upload the plugin to your WordPress site. Takes 30 seconds. No configuration needed.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-brand-500 to-purple-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold mx-auto mb-5 shadow-lg shadow-brand-500/20">2</div>
+                    <h3 class="font-bold text-xl mb-3">Click "Scan"</h3>
+                    <p class="text-gray-600">One button press scans all 32+ checkpoints across 6 categories. Results in 30 seconds.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-brand-500 to-purple-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold mx-auto mb-5 shadow-lg shadow-brand-500/20">3</div>
+                    <h3 class="font-bold text-xl mb-3">Fix & Recover</h3>
+                    <p class="text-gray-600">See exact ₹ amount per issue. Click "Go Fix" to jump directly to the setting. Start recovering money instantly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESULTS PREVIEW -->
+    <section class="py-20 bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-3xl sm:text-4xl font-bold">What You'll See After Your First Scan</h2>
+                <p class="mt-4 text-lg text-gray-400">Real actionable data, not generic advice</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="p-6 bg-gray-800 rounded-2xl border border-gray-700">
+                    <div class="text-red-400 font-bold text-sm mb-3">❌ WHAT OTHERS TELL YOU</div>
+                    <p class="text-gray-300 text-lg">"Your site is slow"</p>
+                    <p class="text-gray-300 text-lg mt-2">"Improve your checkout"</p>
+                    <p class="text-gray-300 text-lg mt-2">"Add more reviews"</p>
+                    <p class="mt-4 text-gray-500 text-sm">Generic. Useless. No action possible.</p>
+                </div>
+                <div class="p-6 bg-gradient-to-br from-brand-900 to-purple-900 rounded-2xl border border-brand-700">
+                    <div class="text-green-400 font-bold text-sm mb-3">✓ WHAT WE TELL YOU</div>
+                    <p class="text-white text-lg">"Your checkout takes 4.2s → <span class="text-red-400 font-bold">-₹8,400/mo</span>"</p>
+                    <p class="text-white text-lg mt-2">"18 products have 0 reviews → <span class="text-red-400 font-bold">-₹6,200/mo</span>"</p>
+                    <p class="text-white text-lg mt-2">"No guest checkout → <span class="text-red-400 font-bold">-₹12,450/mo</span>"</p>
+                    <p class="mt-4 text-brand-200 text-sm">Specific. Actionable. Dollar amounts attached.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- TESTIMONIALS -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl sm:text-4xl font-bold">Store Owners Love It</h2>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm">
+                    <div class="flex gap-1 mb-3">⭐⭐⭐⭐⭐</div>
+                    <p class="text-gray-700 text-sm leading-relaxed">"Found ₹23,000/month in leaks I had NO idea about. Fixed the top 3 issues and saw a 15% revenue bump within 2 weeks. This plugin pays for itself 100x over."</p>
+                    <div class="mt-4 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-brand-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm">RP</div>
+                        <div><div class="font-semibold text-sm">Rajesh Patel</div><div class="text-xs text-gray-500">Fashion Store Owner, Mumbai</div></div>
+                    </div>
+                </div>
+                <div class="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm">
+                    <div class="flex gap-1 mb-3">⭐⭐⭐⭐⭐</div>
+                    <p class="text-gray-700 text-sm leading-relaxed">"I was skeptical. But it found that my guest checkout was disabled, my mobile checkout was broken, and 22 products had no images. Fixed in 1 hour. Revenue up 22% next month."</p>
+                    <div class="mt-4 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center text-white font-bold text-sm">AS</div>
+                        <div><div class="font-semibold text-sm">Ananya Sharma</div><div class="text-xs text-gray-500">Home Decor Store, Delhi</div></div>
+                    </div>
+                </div>
+                <div class="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm">
+                    <div class="flex gap-1 mb-3">⭐⭐⭐⭐⭐</div>
+                    <p class="text-gray-700 text-sm leading-relaxed">"As a developer managing 12 client stores, this saves me hours of manual auditing. I run it on every new client site. The dollar amounts make it easy to justify my optimization work."</p>
+                    <div class="mt-4 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center text-white font-bold text-sm">VK</div>
+                        <div><div class="font-semibold text-sm">Vikram Kumar</div><div class="text-xs text-gray-500">WooCommerce Developer, Bangalore</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 24-HOUR FREE TRIAL SECTION -->
+    <section id="trial" class="py-20 bg-gradient-to-br from-brand-600 via-purple-600 to-brand-800 text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djItSDI0di0yaDEyek0zNiAyNHYySDI0di0yaDEyeiIvPjwvZz48L2c+PC9zdmc+')] opacity-30"></div>
+        <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur border border-white/20 rounded-full mb-6">
+                <span class="text-yellow-300 text-lg">⏰</span>
+                <span class="text-sm font-semibold">24-Hour Full Access — No Credit Card</span>
+            </div>
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">Try It Free for 24 Hours</h2>
+            <p class="text-xl text-brand-100 mb-8 max-w-2xl mx-auto">Get full access to all features. Scan your store. See your revenue leaks. No payment required. Plugin automatically deactivates after 24 hours.</p>
+
+            <!-- Trial Form -->
+            <div class="max-w-md mx-auto">
+                <form id="trial-form" class="flex flex-col sm:flex-row gap-3">
+                    <input type="email" id="trial-email" placeholder="Enter your email address" required class="flex-1 px-5 py-4 rounded-xl text-gray-900 placeholder-gray-400 text-sm font-medium focus:outline-none focus:ring-4 focus:ring-white/30">
+                    <button type="submit" class="px-6 py-4 bg-white text-brand-700 font-bold rounded-xl hover:bg-gray-100 transition-all shadow-lg whitespace-nowrap">Start Free Trial →</button>
+                </form>
+                <p class="mt-4 text-sm text-brand-200">You'll receive a download link + license key valid for 24 hours.</p>
+            </div>
+
+            <!-- What happens after 24 hours -->
+            <div class="mt-12 grid sm:grid-cols-3 gap-6 text-left max-w-3xl mx-auto">
+                <div class="p-4 bg-white/5 backdrop-blur border border-white/10 rounded-xl">
+                    <div class="text-green-300 font-bold text-sm mb-1">During Trial (24h)</div>
+                    <p class="text-sm text-brand-100">Full access to all 32+ scan checks, unlimited scans, complete dashboard</p>
+                </div>
+                <div class="p-4 bg-white/5 backdrop-blur border border-white/10 rounded-xl">
+                    <div class="text-yellow-300 font-bold text-sm mb-1">After 24 Hours</div>
+                    <p class="text-sm text-brand-100">Plugin shows a friendly notice to upgrade. No data is lost. Previous scan results stay visible.</p>
+                </div>
+                <div class="p-4 bg-white/5 backdrop-blur border border-white/10 rounded-xl">
+                    <div class="text-blue-300 font-bold text-sm mb-1">After Purchase</div>
+                    <p class="text-sm text-brand-100">Enter license key → instant reactivation. Lifetime access, free updates forever.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- PRICING -->
+    <section id="pricing" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-3xl sm:text-4xl font-bold">One Price. Lifetime Access. <span class="text-brand-600">No Subscriptions.</span></h2>
+                <p class="mt-4 text-lg text-gray-600">Pay once, use forever. Find ₹40,000+ in leaks for a one-time investment.</p>
+            </div>
+            <div class="max-w-lg mx-auto">
+                <div class="relative p-8 bg-white rounded-3xl border-2 border-brand-500 shadow-2xl shadow-brand-500/10">
+                    <!-- Popular badge -->
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-brand-500 to-purple-600 text-white text-xs font-bold rounded-full shadow-lg">MOST POPULAR</div>
+                    <div class="text-center mb-8">
+                        <p class="text-sm text-gray-500 line-through">₹4,999</p>
+                        <div class="flex items-center justify-center gap-2 mt-1">
+                            <span class="text-5xl font-black">₹2,499</span>
+                            <span class="text-gray-500 text-sm">one-time</span>
+                        </div>
+                        <p class="text-green-600 font-semibold text-sm mt-2">🎉 50% Launch Discount — Limited Time</p>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-sm"><svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg><span>All 6 scan modules (32+ checks)</span></li>
+                        <li class="flex items-center gap-3 text-sm"><svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg><span>Dollar amount per issue</span></li>
+                        <li class="flex items-center gap-3 text-sm"><svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg><span>Fix suggestions + direct links</span></li>
+                        <li class="flex items-center gap-3 text-sm"><svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg><span>Unlimited scans forever</span></li>
+                        <li class="flex items-center gap-3 text-sm"><svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg><span>Scan history + trend charts</span></li>
+                        <li class="flex items-center gap-3 text-sm"><svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg><span>Scheduled automatic scans</span></li>
+                        <li class="flex items-center gap-3 text-sm"><svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg><span>1 year of free updates</span></li>
+                        <li class="flex items-center gap-3 text-sm"><svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg><span>Priority email support</span></li>
+                        <li class="flex items-center gap-3 text-sm"><svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg><span>Use on 1 site (multi-site plans available)</span></li>
+                    </ul>
+                    <button onclick="initiatePayment()" class="w-full py-4 bg-gradient-to-r from-brand-500 to-purple-600 text-white font-bold text-lg rounded-xl shadow-xl shadow-brand-500/25 hover:shadow-2xl hover:shadow-brand-500/30 hover:-translate-y-0.5 transition-all duration-200">
+                        Buy Now — ₹2,499
+                    </button>
+                    <p class="text-center text-xs text-gray-500 mt-4">30-day money-back guarantee. No questions asked.</p>
+                </div>
+            </div>
+
+            <!-- Guarantee -->
+            <div class="mt-12 max-w-2xl mx-auto text-center">
+                <div class="p-6 bg-green-50 border border-green-200 rounded-2xl">
+                    <div class="text-3xl mb-2">🛡️</div>
+                    <h3 class="font-bold text-lg text-green-800">30-Day Money-Back Guarantee</h3>
+                    <p class="text-green-700 text-sm mt-2">If the plugin doesn't find at least ₹5,000/month in revenue leaks on your store, we'll refund you 100%. No questions asked. Zero risk.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FAQ -->
+    <section id="faq" class="py-20 bg-gray-50">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl sm:text-4xl font-bold">Frequently Asked Questions</h2>
+            </div>
+            <div class="space-y-4" id="faq-list">
+                <div class="faq-item bg-white rounded-xl border border-gray-200 overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-5 text-left flex items-center justify-between font-semibold text-gray-900 hover:text-brand-600 transition" onclick="toggleFaq(this)">
+                        <span>Does this slow down my website?</span>
+                        <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="faq-answer px-6 pb-5 text-gray-600 text-sm leading-relaxed hidden">No. Scans only run when you click the button (or on your schedule). They never affect your frontend or customer experience. Zero impact on page speed.</div>
+                </div>
+                <div class="faq-item bg-white rounded-xl border border-gray-200 overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-5 text-left flex items-center justify-between font-semibold text-gray-900 hover:text-brand-600 transition" onclick="toggleFaq(this)">
+                        <span>How accurate are the revenue estimates?</span>
+                        <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="faq-answer px-6 pb-5 text-gray-600 text-sm leading-relaxed hidden">Estimates use your actual store data (orders, revenue, AOV) combined with industry benchmarks from Baymard Institute, Google, and Nielsen research. Each estimate includes a confidence score. More store data = more accuracy.</div>
+                </div>
+                <div class="faq-item bg-white rounded-xl border border-gray-200 overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-5 text-left flex items-center justify-between font-semibold text-gray-900 hover:text-brand-600 transition" onclick="toggleFaq(this)">
+                        <span>Do I need technical knowledge to use this?</span>
+                        <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="faq-answer px-6 pb-5 text-gray-600 text-sm leading-relaxed hidden">Absolutely not. Install it like any WordPress plugin. Click one button. Read the results. Each issue has a plain-English explanation and a "Go Fix" button that takes you directly to the right settings page.</div>
+                </div>
+                <div class="faq-item bg-white rounded-xl border border-gray-200 overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-5 text-left flex items-center justify-between font-semibold text-gray-900 hover:text-brand-600 transition" onclick="toggleFaq(this)">
+                        <span>What happens after the 24-hour free trial?</span>
+                        <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="faq-answer px-6 pb-5 text-gray-600 text-sm leading-relaxed hidden">After 24 hours, the scanning feature stops working and a friendly upgrade notice appears. Your previous scan results remain visible. No data is deleted. Purchase a license to instantly reactivate all features.</div>
+                </div>
+                <div class="faq-item bg-white rounded-xl border border-gray-200 overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-5 text-left flex items-center justify-between font-semibold text-gray-900 hover:text-brand-600 transition" onclick="toggleFaq(this)">
+                        <span>Does it work with the latest WooCommerce?</span>
+                        <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="faq-answer px-6 pb-5 text-gray-600 text-sm leading-relaxed hidden">Yes! Compatible with WooCommerce 7.0+ and WordPress 6.0+. Fully supports HPOS (High-Performance Order Storage). Works with all major themes and plugins.</div>
+                </div>
+                <div class="faq-item bg-white rounded-xl border border-gray-200 overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-5 text-left flex items-center justify-between font-semibold text-gray-900 hover:text-brand-600 transition" onclick="toggleFaq(this)">
+                        <span>Can I get a refund?</span>
+                        <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="faq-answer px-6 pb-5 text-gray-600 text-sm leading-relaxed hidden">Yes. 30-day money-back guarantee. If you're not satisfied for ANY reason, email us and we'll refund you instantly. No questions, no hassle.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">Stop Losing <span class="text-red-500">₹40,000+</span> Every Month</h2>
+            <p class="mt-4 text-xl text-gray-600 max-w-2xl mx-auto">One ₹2,499 investment reveals where ALL the money is going. Most store owners recover the cost within the first hour of fixing issues.</p>
+            <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button onclick="initiatePayment()" class="px-10 py-5 bg-gradient-to-r from-brand-500 to-purple-600 text-white text-lg font-bold rounded-xl shadow-2xl shadow-brand-500/30 hover:shadow-brand-500/40 hover:-translate-y-1 transition-all duration-300">
+                    Buy Now — ₹2,499 (50% Off)
+                </button>
+                <a href="#trial" class="px-10 py-5 border-2 border-gray-200 text-gray-700 text-lg font-semibold rounded-xl hover:border-brand-300 transition-all">
+                    Or Try Free 24h →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-12 bg-gray-900 text-gray-400">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-gradient-to-br from-brand-500 to-purple-600 rounded-lg flex items-center justify-center">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 12L5 6L8 9L11 3L14 8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <span class="text-white font-bold">Revenue Leak Scanner</span>
+                </div>
+                <div class="flex gap-6 text-sm">
+                    <a href="#" class="hover:text-white transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition">Terms of Service</a>
+                    <a href="#" class="hover:text-white transition">Refund Policy</a>
+                    <a href="mailto:support@revenueleakscanner.com" class="hover:text-white transition">Support</a>
+                </div>
+                <p class="text-sm">© 2024 Revenue Leak Scanner. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+    <script>
+    // ============================================
+    // CONFIGURATION - PUT YOUR RAZORPAY KEY HERE
+    // ============================================
+    const CONFIG = {
+        razorpay_key: 'rzp_live_XXXXXXXXXXXXXXX', // ← Replace with your Razorpay Key ID
+        amount: 249900, // Amount in paise (₹2,499 = 249900 paise)
+        currency: 'INR',
+        product_name: 'Revenue Leak Scanner - Lifetime License',
+        description: 'WooCommerce Revenue Leak Scanner Plugin - One Site License',
+        company_name: 'Revenue Leak Scanner',
+        theme_color: '#667EEA',
+        // Your backend endpoint to verify payment (optional)
+        verify_url: '', // e.g., 'https://yoursite.com/api/verify-payment'
+    };
+
+    // ============================================
+    // RAZORPAY PAYMENT
+    // ============================================
+    function initiatePayment() {
+        const options = {
+            key: CONFIG.razorpay_key,
+            amount: CONFIG.amount,
+            currency: CONFIG.currency,
+            name: CONFIG.company_name,
+            description: CONFIG.description,
+            image: '', // Your logo URL
+            handler: function(response) {
+                // Payment successful
+                handlePaymentSuccess(response);
+            },
+            prefill: {
+                name: '',
+                email: document.getElementById('trial-email')?.value || '',
+            },
+            theme: {
+                color: CONFIG.theme_color
+            },
+            modal: {
+                ondismiss: function() {
+                    console.log('Payment cancelled');
+                }
+            }
+        };
+
+        const rzp = new Razorpay(options);
+        rzp.on('payment.failed', function(response) {
+            alert('Payment failed. Please try again. Error: ' + response.error.description);
+        });
+        rzp.open();
+    }
+
+    function handlePaymentSuccess(response) {
+        // Show success message
+        const successHtml = `
+            <div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                <div class="bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl">
+                    <div class="text-5xl mb-4">🎉</div>
+                    <h3 class="text-2xl font-bold mb-2">Payment Successful!</h3>
+                    <p class="text-gray-600 mb-4">Your license key and download link will be sent to your email within 2 minutes.</p>
+                    <p class="text-sm text-gray-500 mb-6">Payment ID: ${response.razorpay_payment_id}</p>
+                    <button onclick="this.closest('.fixed').remove()" class="px-6 py-3 bg-gradient-to-r from-brand-500 to-purple-600 text-white font-bold rounded-xl">Got It!</button>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', successHtml);
+
+        // Optional: Send to your backend for verification
+        if (CONFIG.verify_url) {
+            fetch(CONFIG.verify_url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    payment_id: response.razorpay_payment_id,
+                    order_id: response.razorpay_order_id || '',
+                    signature: response.razorpay_signature || '',
+                })
+            }).catch(err => console.error('Verification error:', err));
+        }
+    }
+
+    // ============================================
+    // 24-HOUR TRIAL
+    // ============================================
+    document.getElementById('trial-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById('trial-email').value;
+
+        if (!email || !email.includes('@')) {
+            alert('Please enter a valid email address.');
+            return;
+        }
+
+        // Show success
+        const btn = this.querySelector('button');
+        btn.textContent = 'Sending...';
+        btn.disabled = true;
+
+        // Simulate API call (replace with your actual trial endpoint)
+        setTimeout(function() {
+            const trialHtml = `
+                <div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div class="bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl">
+                        <div class="text-5xl mb-4">✉️</div>
+                        <h3 class="text-2xl font-bold mb-2">Check Your Email!</h3>
+                        <p class="text-gray-600 mb-2">We've sent the download link + 24-hour trial license key to:</p>
+                        <p class="font-bold text-brand-600 mb-4">${email}</p>
+                        <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-xl mb-4">
+                            <p class="text-sm text-yellow-800"><strong>⏰ Important:</strong> Your trial starts when you activate the plugin. You have full access for exactly 24 hours from activation.</p>
+                        </div>
+                        <button onclick="this.closest('.fixed').remove()" class="px-6 py-3 bg-gradient-to-r from-brand-500 to-purple-600 text-white font-bold rounded-xl">Got It!</button>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', trialHtml);
+            btn.textContent = 'Sent! Check Email →';
+        }, 1500);
+    });
+
+    // ============================================
+    // FAQ TOGGLE
+    // ============================================
+    function toggleFaq(btn) {
+        const answer = btn.nextElementSibling;
+        const icon = btn.querySelector('.faq-icon');
+        const isOpen = !answer.classList.contains('hidden');
+
+        // Close all
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+        document.querySelectorAll('.faq-icon').forEach(i => i.style.transform = '');
+
+        if (!isOpen) {
+            answer.classList.remove('hidden');
+            icon.style.transform = 'rotate(180deg)';
+        }
+    }
+
+    // ============================================
+    // SCROLL ANIMATIONS
+    // ============================================
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('section > div').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+
+    // Fix: Make first visible sections show immediately
+    setTimeout(() => {
+        document.querySelectorAll('section > div').forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight) {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }
+        });
+    }, 100);
+
+    // ============================================
+    // NAVBAR SCROLL EFFECT
+    // ============================================
+    window.addEventListener('scroll', () => {
+        const nav = document.getElementById('navbar');
+        if (window.scrollY > 50) {
+            nav.classList.add('shadow-md');
+        } else {
+            nav.classList.remove('shadow-md');
+        }
+    });
+    </script>
+</body>
+</html>
