@@ -53,20 +53,20 @@
                     <a href="#pricing" class="text-sm text-gray-600 hover:text-brand-600 transition">Pricing</a>
                     <a href="#faq" class="text-sm text-gray-600 hover:text-brand-600 transition">FAQ</a>
                 </div>
-                <!-- Desktop CTA -->
-                <div class="hidden md:flex items-center gap-3">
+                <!-- Desktop CTA (hidden below 1024px) -->
+                <div class="hidden lg:flex items-center gap-3">
                     <a href="#trial" class="text-sm font-medium text-brand-600 hover:text-brand-700 transition">Free Trial</a>
                     <button onclick="initiatePayment()" class="px-4 py-2 bg-gradient-to-r from-brand-500 to-purple-600 text-white text-sm font-semibold rounded-lg shadow-lg shadow-brand-500/25 hover:shadow-xl hover:shadow-brand-500/30 hover:-translate-y-0.5 transition-all duration-200">Buy — $19</button>
                 </div>
-                <!-- Mobile Hamburger -->
-                <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition">
+                <!-- Hamburger Menu Button (visible below 1024px) -->
+                <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition">
                     <svg id="hamburger-icon" class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                     <svg id="close-icon" class="w-6 h-6 text-gray-700 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
         </div>
         <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 shadow-lg">
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg">
             <div class="px-4 py-4 space-y-3">
                 <a href="#features" onclick="closeMobileMenu()" class="block py-2 px-3 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition">Features</a>
                 <a href="#how-it-works" onclick="closeMobileMenu()" class="block py-2 px-3 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition">How It Works</a>
