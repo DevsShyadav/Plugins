@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Revenue Leak Scanner — 24h Trial
- * Plugin URI: https://revenueleakscanner.com
+ * Plugin URI: https://devsarun.io/plugin/rev
  * Description: [24-HOUR TRIAL] Discover exactly where your WooCommerce store leaks money. Full access for 24 hours, then auto-expires.
  * Version: 1.0.0
  * Author: Revenue Leak Scanner
- * Author URI: https://revenueleakscanner.com
+ * Author URI: https://devsarun.io
  * License: GPL v2 or later
  * Text Domain: revenue-leak-scanner
  * Domain Path: /languages
@@ -38,7 +38,7 @@ if ( ! defined( 'RLS_TRIAL_HOURS' ) ) {
     define( 'RLS_TRIAL_HOURS', 24 );
 }
 if ( ! defined( 'RLS_BUY_URL' ) ) {
-    define( 'RLS_BUY_URL', 'https://revenueleakscanner.com/#pricing' );
+    define( 'RLS_BUY_URL', 'https://devsarun.io/plugin/rev/#pricing' );
 }
 
 /**
